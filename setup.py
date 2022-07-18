@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="perlin-numpy",
+    name="perlin-jax",
     packages=find_packages(),
     include_package_data=True,
     python_requires='>=3',
@@ -9,7 +9,8 @@ setup(
     author="pvigier",
     license="MIT",
     install_requires=[
-        "numpy>=1.15"
+        "numpy>=1.15",
+        "jax"
     ],
     zip_safe=False
 )

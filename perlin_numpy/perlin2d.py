@@ -6,9 +6,9 @@ def interpolant(t):
     return t*t*t*(t*(t*6 - 15) + 10)
 
 
-def generate_perlin_noise_2d(autofunc=jax.vmap(
+def generate_perlin_noise_2d():
+    autofunc=jax.vmap(
         shape, res, tileable=(False, False), interpolant=interpolant
-):
     """Generate a 2D numpy array of perlin noise.
 
     Args:

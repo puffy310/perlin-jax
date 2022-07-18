@@ -31,11 +31,11 @@ def generate_perlin_noise_2d(
         n01 = jnp.sum(np.dstack((grid[:,:,0]  , grid[:,:,1]-1)) * g01, 2)
         n11 = jnp.sum(np.dstack((grid[:,:,0]-1, grid[:,:,1]-1)) * g11, 2)
         # Interpolation
-        t = interpolant(grid)
-        n0 = n00*(1-t[:,:,0]) + t[:,:,0]*n10
-        n1 = n01*(1-t[:,:,0]) + t[:,:,0]*n11
     jax_auto = jax.vmap(jax_auto)
     jax.jit(jax_auto)
+    t = interpolant(grid)
+    n0 = n00*(1-t[:,:,0]) + t[:,:,0]*n10
+    n1 = n01*(1-t[:,:,0]) + t[:,:,0]*n11
     return jnp.sqrt(2)*((1-t[:,:,1])*n0 + t[:,:,1]*n1)
 
 def generate_fractal_noise_2d(

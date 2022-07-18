@@ -6,7 +6,7 @@ def interpolant(t):
     return t*t*t*(t*(t*6 - 15) + 10)
 
 
-def generate_perlin_noise_2d(:
+def generate_perlin_noise_2d(
     shape, res, tileable=(False, False), interpolant=interpolant):
     def jax_auto():
         delta = (res[0] / shape[0], res[1] / shape[1])

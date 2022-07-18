@@ -34,8 +34,7 @@ def generate_perlin_noise_2d():
         t = interpolant(grid)
         n0 = n00*(1-t[:,:,0]) + t[:,:,0]*n10
         n1 = n01*(1-t[:,:,0]) + t[:,:,0]*n11
-    jax_autofunc = jax.vmap(jax_auto)
-    jax.jit(jax_autofunc)
+    jax.jit(jax_auto)
     return jnp.sqrt(2)*((1-t[:,:,1])*n0 + t[:,:,1]*n1)
 
 def generate_fractal_noise_2d(

@@ -7,8 +7,8 @@ def interpolant(t):
 
 
 def generate_perlin_noise_2d():
+    shape, res, tileable=(False, False), interpolant=interpolant
     def jax_auto():
-        shape, res, tileable=(False, False), interpolant=interpolant
         delta = (res[0] / shape[0], res[1] / shape[1])
         d = (shape[0] // res[0], shape[1] // res[1])
         grid = jnp.mgrid[0:res[0]:delta[0], 0:res[1]:delta[1]]\

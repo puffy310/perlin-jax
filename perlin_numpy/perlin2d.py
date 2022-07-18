@@ -8,26 +8,7 @@ def interpolant(t):
 
 def generate_perlin_noise_2d():
     autofunc=jax.vmap(
-        shape, res, tileable=(False, False), interpolant=interpolant
-    """Generate a 2D numpy array of perlin noise.
-
-    Args:
-        shape: The shape of the generated array (tuple of two ints).
-            This must be a multple of res.
-        res: The number of periods of noise to generate along each
-            axis (tuple of two ints). Note shape must be a multiple of
-            res.
-        tileable: If the noise should be tileable along each axis
-            (tuple of two bools). Defaults to (False, False).
-        interpolant: The interpolation function, defaults to
-            t*t*t*(t*(t*6 - 15) + 10).
-
-    Returns:
-        A numpy array of shape shape with the generated noise.
-
-    Raises:
-        ValueError: If shape is not a multiple of res.
-    """
+    shape, res, tileable=(False, False), interpolant=interpolant
     delta = (res[0] / shape[0], res[1] / shape[1])
     d = (shape[0] // res[0], shape[1] // res[1])
     grid = jnp.mgrid[0:res[0]:delta[0], 0:res[1]:delta[1]]\

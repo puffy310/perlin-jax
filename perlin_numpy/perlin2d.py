@@ -1,5 +1,6 @@
-import numpy
-import jax.numpy as np
+import numpy as np
+import jax
+import jax.numpy as jnp
 
 def interpolant(t):
     return t*t*t*(t*(t*6 - 15) + 10)
@@ -29,11 +30,11 @@ def generate_perlin_noise_2d(
     """
     delta = (res[0] / shape[0], res[1] / shape[1])
     d = (shape[0] // res[0], shape[1] // res[1])
-    grid = np.mgrid[0:res[0]:delta[0], 0:res[1]:delta[1]]\
+    grid = jnp.mgrid[0:res[0]:delta[0], 0:res[1]:delta[1]]\
              .transpose(1, 2, 0) % 1
     # Gradients
-    angles = 2*np.pi*numpy.random.rand(res[0]+1, res[1]+1)
-    gradients = np.dstack((np.cos(angles), np.sin(angles)))
+    angles = 2*jnp.pi*jax.random.PNRGKey(res[0]+1, res[1]+1)
+    gradients = jnp.dstack((np.cos(angles), np.sin(angles)))
     if tileable[0]:
         gradients[-1,:] = gradients[0,:]
     if tileable[1]:
@@ -44,15 +45,15 @@ def generate_perlin_noise_2d(
     g01 = gradients[    :-d[0],d[1]:     ]
     g11 = gradients[d[0]:     ,d[1]:     ]
     # Ramps
-    n00 = np.sum(np.dstack((grid[:,:,0]  , grid[:,:,1]  )) * g00, 2)
-    n10 = np.sum(np.dstack((grid[:,:,0]-1, grid[:,:,1]  )) * g10, 2)
-    n01 = np.sum(np.dstack((grid[:,:,0]  , grid[:,:,1]-1)) * g01, 2)
-    n11 = np.sum(np.dstack((grid[:,:,0]-1, grid[:,:,1]-1)) * g11, 2)
+    n00 = jnp.sum(jnp.dstack((grid[:,:,0]  , grid[:,:,1]  )) * g00, 2)
+    n10 = jnp.sum(jnp.dstack((grid[:,:,0]-1, grid[:,:,1]  )) * g10, 2)
+    n01 = jnp.sum(np.dstack((grid[:,:,0]  , grid[:,:,1]-1)) * g01, 2)
+    n11 = jnp.sum(np.dstack((grid[:,:,0]-1, grid[:,:,1]-1)) * g11, 2)
     # Interpolation
     t = interpolant(grid)
     n0 = n00*(1-t[:,:,0]) + t[:,:,0]*n10
     n1 = n01*(1-t[:,:,0]) + t[:,:,0]*n11
-    return np.sqrt(2)*((1-t[:,:,1])*n0 + t[:,:,1]*n1)
+    return jnp.sqrt(2)*((1-t[:,:,1])*n0 + t[:,:,1]*n1)
 
 
 def generate_fractal_noise_2d(

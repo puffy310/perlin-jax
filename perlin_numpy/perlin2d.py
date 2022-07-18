@@ -33,7 +33,7 @@ def generate_perlin_noise_2d(
     grid = jnp.mgrid[0:res[0]:delta[0], 0:res[1]:delta[1]]\
              .transpose(1, 2, 0) % 1
     # Gradients
-    angles = 2*jnp.pi*jax.random.PRNGKey(res[0]+1, res[1]+1)
+    angles = 2*jnp.pi*np.random.rand(res[0]+1, res[1]+1)
     gradients = jnp.dstack((np.cos(angles), np.sin(angles)))
     if tileable[0]:
         gradients[-1,:] = gradients[0,:]
